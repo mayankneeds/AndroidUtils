@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.FrameLayout
+import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
@@ -26,10 +28,19 @@ class BlankFragment2 : BaseFragment(), OnBackPressedListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (view as FrameLayout).setBackgroundColor(Color.parseColor(args.color))
+
+        view.findViewById<Button>(R.id.btn).setOnClickListener {
+            navigation?.openFragment(BlankFragment2Directions.actionBlankFragment2ToBlankFragment(),R.id.blankFragment)
+        }
+
     }
 
     override fun onBackPressed() {
-        navigation?.goBack( Bundle().apply { putString(BlankFragment.KEY_BTN_TEXT, "Came from fragment 2")})
+        navigation?.goBack(
+            bundleOf(
+                BlankFragment.KEY_BTN_TEXT to "Came from fragment 2"
+            )
+        )
     }
 
 }

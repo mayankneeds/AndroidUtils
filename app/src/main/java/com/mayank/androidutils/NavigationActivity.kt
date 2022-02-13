@@ -1,16 +1,14 @@
 package com.mayank.androidutils
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.*
+import androidx.navigation.NavDirections
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import kotlin.properties.Delegates
 
-
 open class NavigationActivity : AppCompatActivity(), Navigation {
+
 
     private val mKeyBundle = "bundleKey"
 
@@ -30,7 +28,7 @@ open class NavigationActivity : AppCompatActivity(), Navigation {
     }
 
     override fun detectBundleOnBackPressed(onDetect: (bundle: Bundle?) -> Unit) {
-        val savedStateHandle =navController.currentBackStackEntry?.savedStateHandle
+        val savedStateHandle = navController.currentBackStackEntry?.savedStateHandle
         savedStateHandle?.getLiveData<Bundle>(mKeyBundle)
             ?.observe(currentFragment.viewLifecycleOwner) {
                 onDetect(it)
@@ -38,9 +36,26 @@ open class NavigationActivity : AppCompatActivity(), Navigation {
             }
     }
 
-    override fun openFragment(directions: NavDirections) {
-        navController.navigate(directions)
+    override fun openFragmentAndClearTill(directions: NavDirections, popUpTillFragmentId: Int) {
+        navController.navigate(directions, if (popUpTillFragmentId != 0) navOptions {
+            popUpTo(popUpTillFragmentId) {
+                inclusive = true
+            }
+        } else null)
     }
+
+    override fun openFragmentAndRemoveCurrent(directions: NavDirections) {
+        openFragmentAndClearTill(directions, navController.currentDestination?.id ?: 0)
+    }
+
+    override fun openFragmentAndClearAll(directions: NavDirections) {
+
+    }
+
+    override fun openFragment(directions: NavDirections) {
+        openFragmentAndClearTill(directions)
+    }
+
 
     override fun goBack(bundle: Bundle?) {
         bundle?.let {

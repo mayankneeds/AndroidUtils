@@ -24,5 +24,8 @@
             android:name="color"
             android:defaultValue="#FFCCFF"
             app:argType="string" />
+        <action
+            android:id="@+id/action_blankFragment2_to_blankFragment"
+            app:destination="@id/blankFragment" />
     </fragment>
 </navigation>

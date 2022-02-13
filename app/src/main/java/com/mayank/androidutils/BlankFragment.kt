@@ -29,13 +29,12 @@ class BlankFragment : BaseFragment() {
 
         navigation?.detectBundleOnBackPressed {
             it?.getString(KEY_BTN_TEXT)?.let {
-                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 (view.findViewById(R.id.button) as Button).text = it
             }
         }
 
-
-        (view.findViewById(R.id.button) as Button).setOnClickListener { view ->
+        (view.findViewById(R.id.button) as Button).setOnClickListener { _ ->
             navigation?.openFragment(
                 BlankFragmentDirections.actionBlankFragmentToBlankFragment2()
             )
