@@ -9,8 +9,7 @@ import kotlin.properties.Delegates
 
 open class NavigationActivity : AppCompatActivity(), Navigation {
 
-
-    private val mKeyBundle = "bundleKey"
+    private val mKeyBundle = "key_bundle"
 
     private var navHostId by Delegates.notNull<Int>()
     private val navHostFragment by lazy { supportFragmentManager.findFragmentById(navHostId) as NavHostFragment }
@@ -36,26 +35,32 @@ open class NavigationActivity : AppCompatActivity(), Navigation {
             }
     }
 
-    override fun openFragmentAndClearTill(directions: NavDirections, popUpTillFragmentId: Int) {
-        navController.navigate(directions, if (popUpTillFragmentId != 0) navOptions {
-            popUpTo(popUpTillFragmentId) {
-                inclusive = true
-            }
-        } else null)
+    override fun openFragmentAndClearTill(
+        directions: NavDirections,
+        bundle: Bundle?,
+        popUpTillFragmentId: Int
+    ) {
+        navController.navigate(
+            directions.actionId,
+            bundle,
+            if (popUpTillFragmentId != 0) navOptions {
+                popUpTo(popUpTillFragmentId) {
+                    inclusive = true
+                }
+            } else null)
     }
 
-    override fun openFragmentAndRemoveCurrent(directions: NavDirections) {
-        openFragmentAndClearTill(directions, navController.currentDestination?.id ?: 0)
+    override fun openFragmentAndRemoveCurrent(directions: NavDirections, bundle: Bundle?) {
+        openFragmentAndClearTill(directions, bundle, navController.currentDestination?.id ?: 0)
     }
 
-    override fun openFragmentAndClearAll(directions: NavDirections) {
-
+    override fun openFragmentAndClearAll(directions: NavDirections, bundle: Bundle?) {
+        openFragmentAndClearTill(directions, bundle, navController.graph.startDestinationId)
     }
 
-    override fun openFragment(directions: NavDirections) {
-        openFragmentAndClearTill(directions)
+    override fun openFragment(directions: NavDirections, bundle: Bundle?) {
+        openFragmentAndClearTill(directions, bundle, 0)
     }
-
 
     override fun goBack(bundle: Bundle?) {
         bundle?.let {

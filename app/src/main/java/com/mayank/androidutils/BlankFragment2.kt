@@ -2,18 +2,16 @@ package com.mayank.androidutils
 
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.FrameLayout
 import androidx.core.os.bundleOf
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 
 
-class BlankFragment2 : BaseFragment(), OnBackPressedListener {
+class BlankFragment2 : NavigationFragment(), OnBackPressedListener {
 
     private val args: BlankFragment2Args by navArgs()
 
@@ -27,10 +25,11 @@ class BlankFragment2 : BaseFragment(), OnBackPressedListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (view as FrameLayout).setBackgroundColor(Color.parseColor(args.color))
+       (view as FrameLayout).setBackgroundColor(Color.parseColor(args.color))
+
 
         view.findViewById<Button>(R.id.btn).setOnClickListener {
-            navigation?.openFragment(BlankFragment2Directions.actionBlankFragment2ToBlankFragment(),R.id.blankFragment)
+            navigation?.openFragment(BlankFragment2Directions.actionBlankFragment2ToBlankFragment())
         }
 
     }

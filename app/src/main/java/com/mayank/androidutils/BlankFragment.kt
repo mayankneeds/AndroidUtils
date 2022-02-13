@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
 
 
-class BlankFragment : BaseFragment() {
+class BlankFragment : NavigationFragment() {
 
     companion object {
         val KEY_BTN_TEXT = "btn_text"
@@ -36,7 +34,7 @@ class BlankFragment : BaseFragment() {
 
         (view.findViewById(R.id.button) as Button).setOnClickListener { _ ->
             navigation?.openFragment(
-                BlankFragmentDirections.actionBlankFragmentToBlankFragment2()
+                BlankFragmentDirections.actionBlankFragmentToBlankFragment2("#FFCCFF")
             )
         }
 

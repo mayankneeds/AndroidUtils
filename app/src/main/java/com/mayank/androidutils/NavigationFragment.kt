@@ -6,7 +6,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
-open class BaseFragment : Fragment() {
+open class NavigationFragment : Fragment() {
 
     var navigation: Navigation? = null
 
