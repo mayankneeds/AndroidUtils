@@ -7,20 +7,11 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [User::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
-
+    companion object {
+        const val mRoomDbName = "your.room.db.name"
+    }
 
     abstract fun userDao(): UserDao
 
 
-    companion object {
-        private const val mRoomDbName = "your.room.db.name"
-
-        @Volatile
-        private var mInstance: AppDatabase? = null
-
-        fun getInstance(context:Context) = mInstance ?:  synchronized(this) {
-            val newInstance = mInstance ?: Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, mRoomDbName).build().also { mInstance = it }
-            newInstance
-        }
-    }
 }
