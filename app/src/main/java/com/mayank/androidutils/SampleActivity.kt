@@ -2,6 +2,7 @@ package com.mayank.androidutils
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.mayank.androidutils.db.AppDatabase
@@ -18,10 +19,15 @@ class SampleActivity : AppCompatActivity() {
         val repository = Repository(AppDatabase.getInstance(this).userDao())
 
         lifecycleScope.launch(Dispatchers.IO) {
-            repository.insertUser(User(firstName = "Mayank", lastName = "Sharma"))
+            try {
+                repository.insertUser(User(firstName = "Mayank", lastName = "Sharma"))
+                val users = repository.getAllUsers().toString()
 
-            launch(Dispatchers.Main) {
-                Toast.makeText(applicationContext, repository.getAllUsers().toString(), Toast.LENGTH_LONG).show()
+                launch(Dispatchers.Main) {
+                    Toast.makeText(applicationContext, users, Toast.LENGTH_LONG).show()
+                }
+            } catch (e: Throwable) {
+                Log.e("SampleActivity", e.toString())
             }
         }
 
